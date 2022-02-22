@@ -60,6 +60,4 @@ def rclone_process_display(process, message):
 
 
 
-['Transferred:   \t   13.774 MiB / 13.774 MiB, 100%, 10.660 KiB/s, ETA 0s']
-
 

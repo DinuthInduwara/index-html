@@ -4,6 +4,7 @@ import pyrogram, json
 from plugins.worker import javfindx_urlgen, parserAndDetails, sent_contentToTelegram, list_DB, save_forDraft, sendDraft_fromDB, delete_byID
 from plugins.proxy_download import proxyDownload
 from plugins.speedtest import get_speed
+from plugins.rclone_upload import rcloneUpload
 import concurrent.futures
 
 @pyrogram.Client.on_message(pyrogram.filters.command(["start"]))
@@ -64,8 +65,9 @@ def proxyDownload_cmd(client, message):
             fname = message.command[3]
         with concurrent.futures.ThreadPoolExecutor() as executor:
             f1 = executor.submit(proxyDownload, client, message, url, fname)
-            path = f1.result()
-            print(path)
+            path, m = f1.result()
+            rclone_Upload(path, m)
+
 
         
 @pyrogram.Client.on_message(pyrogram.filters.command(["speedtest"]))

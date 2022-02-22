@@ -2,14 +2,13 @@ import requests, json, os, time
 from pyrogram import Client, filters
 from pySmartDL import SmartDL
 from plugins.tg_upload import upload_tg, humanbytes
-from plugins.rclone_upload import rclone_Upload
 proxy = []
 @Client.on_message(filters.document)
 async def setproxy_cmd(client, message):
     print(message)
     if message.document.file_name == "rclone.conf": 
         doc =await message.download()
-        message.reply("Rclone Config Added")
+        await message.reply("Rclone Config Added")
 
 
 headers = {
@@ -52,15 +51,14 @@ def proxyDownload(client, message, url, filename=None):
                 path = obj.get_dest()
                 # d_time =  obj.get_dl_time(human=True)
                 # upload_tg(client, message, path, m)
-                rclone_Upload(path, m)
+                return path, m
         else:
             msg = ''
             for e in obj.get_errors():
                 msg+=str(e)
             m.edit("There were some errors:")
 
-        return path
+        
     except Exception as error:
         message.reply(error)
         return None
-    
