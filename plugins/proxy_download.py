@@ -7,12 +7,9 @@ proxy = []
 @Client.on_message(filters.document)
 async def setproxy_cmd(client, message):
     print(message)
-    if message.document.mime_type == "application/json": 
+    if message.document.file_name == "rclone.conf": 
         doc =await message.download()
-        with open(doc, 'r') as f:
-            print("proxy appended from document")
-            proxy.append(json.load(f))
-            os.remove(doc)
+        message.reply("Rclone Config Added")
 
 
 headers = {
