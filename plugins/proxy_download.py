@@ -56,7 +56,7 @@ def proxyDownload(client, message, url, filename=None):
             msg = ''
             for e in obj.get_errors():
                 msg+=str(e)
-            m.edit("There were some errors:")
+            m.edit("There were some errors:{}".format(msg))
 
         
     except Exception as error:

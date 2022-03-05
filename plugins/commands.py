@@ -5,6 +5,7 @@ from plugins.worker import javfindx_urlgen, parserAndDetails, sent_contentToTele
 from plugins.proxy_download import proxyDownload
 from plugins.speedtest import get_speed
 from plugins.rclone_upload import rclone_Upload
+from plugins.bypasslinkgen import Bypass
 import concurrent.futures
 
 @pyrogram.Client.on_message(pyrogram.filters.command(["start"]))
@@ -58,11 +59,18 @@ async def deleteDraft_cmd(client, message):
 
 @pyrogram.Client.on_message(pyrogram.filters.command(["download"]))
 def proxyDownload_cmd(client, message):
+    bypasshost = ["antfiles", "ouo", "anonfiles", "streamtape", "uservideo", "mediafire", "zippyshare", "fembed"]
     fname = None
     if len(message.command) > 1:
         url = message.command[1]
         if "|" in message.command:
             fname = message.command[3]
+        if "streamtape" in url:
+            ul = Bypass()
+            url = ul.bypass_streamtape(url)
+        if "fem=true" in message.text:
+            ul = Bypass()
+            url = ul.bypass_fembed(url)  
         with concurrent.futures.ThreadPoolExecutor() as executor:
             f1 = executor.submit(proxyDownload, client, message, url, fname)
             path, m = f1.result()

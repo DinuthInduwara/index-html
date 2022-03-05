@@ -1,4 +1,4 @@
-import subprocess, re
+import subprocess, re, os
 from datetime import date
 
 
@@ -23,11 +23,11 @@ def rclone_Upload(path, message):
     ]
 
     rclone_pr = subprocess.Popen(rclone_copy_cmd, stdout=subprocess.PIPE)
-    rcres = rclone_process_display(rclone_pr, message)
+    rcres = rclone_process_display(rclone_pr, message, path)
 
 
 
-def rclone_process_display(process, message):
+def rclone_process_display(process, message, path):
     blank = 0
     sleeps = False
     while True:
@@ -53,6 +53,7 @@ def rclone_process_display(process, message):
         if sleeps:
             sleeps = False
             process.stdout.flush()
+    os.remove(path)
 
 
     
