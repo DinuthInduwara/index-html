@@ -39,9 +39,13 @@ class Bypass:
 
         raw = self.session.get(url)
 
-        if (videolink := re.findall(r"document.*((?=id\=)[^\"']+)", raw.text)):
+        if re.findall(r"document.*((?=id\=)[^\"']+)", raw.text):
+            videolink = re.findall(r"document.*((?=id\=)[^\"']+)", raw.text)
             nexturl = "https://streamtape.com/get_video?" + videolink[-1]
          
-            if (redirect := self.bypass_redirect(nexturl)):
+            if self.bypass_redirect(nexturl):
+                redirect = self.bypass_redirect(nexturl)
                 return redirect
 
+# gg = Bypass()
+# print(gg.bypass_streamtape("https://streamtape.com/v/GKyRPlrVLwf1xGp/Copy_of_hhd800.com%40SOAV-082.mp4"))
